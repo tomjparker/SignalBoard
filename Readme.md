@@ -1,4 +1,4 @@
-SignalBoard Pro is a full-stack TypeScript platform for unifying product feedback, external tickets, and team planning data into a single source of truth.
+SignalBoard is a full-stack TypeScript platform for unifying product feedback, external tickets, and team planning data into a single source of truth.
 
 It integrates with systems like Azure DevOps, GitHub Issues, and Jira, pulling data in via webhooks and APIs, then merging, deduplicating, and prioritizing it.
 Teams can organize all inputs into a central roadmap, apply weighted scoring to decide what matters most, and sync updates back to external systems — keeping every tool and team aligned.

@@ -1,18 +1,32 @@
 version: "3.9"
 services:
-  db: 
+  db:
     image: postgres:16
+    container_name: signalboard_db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: signalboard
-    ports: ["5432:5432"]
+      POSTGRES_USER: signalboard
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: signalboard_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL","pg_isready -U user -d signalboard"]
+      test: ["CMD-SHELL", "pg_isready -U signalboard -d signalboard_dev"]
       interval: 5s
       timeout: 3s
       retries: 10
-    volumes:
-      - db_data:/var/lib/postgresql/data
+    
+    api:
+    build: ../api
+    environment:
+      DATABASE_URL: postgresql://signalboard:devpass@db:5432/signalboard_dev
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
-  db_data:
+  postgres_data:
