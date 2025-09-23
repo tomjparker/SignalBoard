@@ -31,5 +31,3 @@ model Issue {
   status      String  @default("open")
   createdAt   DateTime  @default(now())
 }
-
-
