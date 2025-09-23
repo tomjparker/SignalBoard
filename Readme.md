@@ -28,3 +28,14 @@ Phase 4 — Notifications & Subscriptions
 Users can subscribe to issues or roadmap items.
 Notifications sent via email, Slack, or Discord for pressing updates or status changes.
 Metrics for notification delivery success and latency.
+
+Folder structure:
+api/ # Backend, Express + Prisma
+web/ # Frontend, (Vite + React)
+prisma/ # Schema and migrations
+infra/ Docker, k8s, deployment configs
+
+docker compose -f infra/docker-compose.yml up -d  // to spin up the postgres (postgreSQL) db
+
+npm i -D prisma
+npm i @prisma/client
