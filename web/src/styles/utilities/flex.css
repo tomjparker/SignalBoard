@@ -1,0 +1,84 @@
+@layer utilities {
+
+.flex {
+  display: flex;
+  flex-direction: var(--flex-dir, row);
+  align-items: var(--flex-align, stretch);
+  justify-content: var(--flex-justify, flex-start);
+  gap: var(--flex-gap, var(--space-4));
+  flex-wrap: var(--flex-wrap, wrap);
+}
+
+/* Direction */
+.row     { --flex-dir: row; }
+.col     { --flex-dir: column; }
+
+/* Wrapping */
+.wrap    { --flex-wrap: wrap; }
+.nowrap  { --flex-wrap: nowrap; }
+
+/* Alignment */
+.items-start    { --flex-align: flex-start; }
+.items-center   { --flex-align: center; }
+.items-end      { --flex-align: flex-end; }
+.items-stretch  { --flex-align: stretch; }
+
+/* Justification */
+.justify-start   { --flex-justify: flex-start; }
+.justify-center  { --flex-justify: center; }
+.justify-end     { --flex-justify: flex-end; }
+.justify-between { --flex-justify: space-between; }
+.justify-around  { --flex-justify: space-around; }
+.justify-evenly  { --flex-justify: space-evenly; }
+
+/* Gaps (hooked to your spacing tokens) */
+.gap-1 { --flex-gap: var(--space-1); }
+.gap-2 { --flex-gap: var(--space-2); }
+.gap-3 { --flex-gap: var(--space-3); }
+.gap-4 { --flex-gap: var(--space-4); }
+.gap-5 { --flex-gap: var(--space-5); }
+.gap-6 { --flex-gap: var(--space-6); }
+.gap-7 { --flex-gap: var(--space-7); }
+
+/* Item utilities */
+.flex-1    { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+
+.self-start   { align-self: flex-start; }
+.self-center  { align-self: center; }
+.self-end     { align-self: flex-end; }
+.self-stretch { align-self: stretch; }
+
+/* Handy basis sizes (use inline styles or your own vars if you need others) */
+.basis-1-2 { flex-basis: 50%; }
+.basis-1-3 { flex-basis: 33.333%; }
+.basis-2-3 { flex-basis: 66.666%; }
+.basis-1-4 { flex-basis: 25%; }
+.basis-3-4 { flex-basis: 75%; }
+
+.basis-xs { flex-basis: 12rem; }
+.basis-sm { flex-basis: 16rem; }
+.basis-md { flex-basis: 20rem; }
+.basis-lg { flex-basis: 24rem; }
+.basis-xl { flex-basis: 32rem; }
+
+/* Responsive variants (use your custom media from tokens/breakpoints.css)
+   Note: class names contain ':'; escape in CSS, use plain in HTML/JSX. */
+@media (--sm) {
+  .sm\:row { --flex-dir: row; }
+  .sm\:col { --flex-dir: column; }
+  .sm\:items-center { --flex-align: center; }
+  .sm\:justify-between { --flex-justify: space-between; }
+}
+@media (--md) {
+  .md\:row { --flex-dir: row; }
+  .md\:col { --flex-dir: column; }
+  .md\:items-center { --flex-align: center; }
+  .md\:justify-between { --flex-justify: space-between; }
+}
+@media (--lg) {
+  .lg\:row { --flex-dir: row; }
+  .lg\:col { --flex-dir: column; }
+}
+}

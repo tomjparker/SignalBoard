@@ -1,0 +1,51 @@
+/* tokens only in :root */
+:root {
+  --radius: 0.5rem;
+}
+
+/* full-viewport canvas */
+:where(html, body, #root) { min-height: 100%; }
+:where(#root, .page) { inline-size: 100%; }
+
+body {
+  margin: 0;                      /* remove default body margin */
+  min-block-size: 100dvb;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  background: Canvas;
+  color: CanvasText;
+}
+
+/* A generic page wrapper */
+.page { display: block; min-block-size: 100dvb; }
+
+/* Longform content */
+.prose {
+  margin-inline: auto;
+  max-inline-size: 65ch;
+  padding-inline: var(--container-inline-padding, 1rem);
+}
+
+/* demo styles (optional – consider moving to component CSS Modules) */
+.logo { height: 6em; padding: 1.5em; will-change: filter; transition: filter 300ms; }
+.logo:hover { filter: drop-shadow(0 0 2em #646cffaa); }
+
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo { animation: logo-spin infinite 20s linear; }
+}
+
+.card { padding: 2em; }
+
+/* element defaults via layer if you want to keep them here */
+@layer base {
+  :where(h1,h2,h3,h4,h5,h6) {
+    font-weight: var(--weight-semibold, 600);
+    line-height: var(--lh-tight, 1.2);
+    margin: 0 0 var(--space-4, 1rem);
+    letter-spacing: var(--tracking-tight, -0.01em);
+  }
+  /* …rest of your heading/body/link rules… */
+}

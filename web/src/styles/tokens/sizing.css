@@ -1,0 +1,12 @@
+:root {
+  --container-max-width: clamp(72rem, 92vw, 100rem); /* up to ~1600px */
+  --container-inline-padding: clamp(1rem, 2.5vw, 2.5rem);
+
+  --grid-gap: var(--space-5);
+  --grid-min: 16rem;
+}
+
+/* very wide screens */
+@media (--xl) {
+  :root { --container-max-width: 110rem; } /* ~1760px on 1920 */
+}

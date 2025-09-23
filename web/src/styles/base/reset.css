@@ -1,0 +1,20 @@
+/* Enforce pseudo element behaviour*/
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+:where(html, body) { min-height: 100%; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  line-height: 1.5;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+:where(p, ul, ol, dl, blockquote) { margin: 0; }

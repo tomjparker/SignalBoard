@@ -1,0 +1,43 @@
+/* import this in index.css as: @import url("./base/typography.css") layer(base); */
+
+/* keep tokens inline first so values exist before rules use them */
+@layer tokens {
+  :root {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    --lh-tight: 1.2;
+    --lh-normal: 1.5;
+    --lh-loose: 1.7;
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+
+    --fluid-sm:   clamp(0.875rem, 0.82rem + 0.40vw, 1rem);
+    --fluid-base: clamp(1rem,     0.95rem + 0.50vw, 1.125rem);
+    --fluid-lg:   clamp(1.125rem, 1.05rem + 0.70vw, 1.25rem);
+    --fluid-xl:   clamp(1.25rem,  1.10rem + 1.00vw, 1.5rem);
+    --fluid-2xl:  clamp(1.5rem,   1.30rem + 1.40vw, 1.875rem);
+    --fluid-3xl:  clamp(1.875rem, 1.60rem + 1.80vw, 2.25rem);
+    --fluid-4xl:  clamp(2.25rem,  1.90rem + 2.50vw, 3rem);
+
+    --measure: 65ch;
+    --measure-narrow: 50ch;
+    --measure-wide: 75ch;
+
+    --tracking-tight: -0.01em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.02em;
+  }
+}

@@ -1,0 +1,19 @@
+@layer utilities {
+  /* Generic panel surface */
+  .surface {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: var(--radius);
+    padding: var(--surface-padding, var(--space-6));
+    box-shadow: var(--shadow-1);
+  }
+
+  /* Slightly stronger fill for headers/accents */
+  .surface-strong { background: var(--surface-strong); }
+
+  /* Full-bleed background with constrained inner content */
+  .surface-bleed {
+    margin-inline: calc(50% - 50vw);
+    padding-inline: max(var(--container-inline-padding, 1rem), calc(50vw - 50%));
+  }
+}

@@ -1,0 +1,24 @@
+/* utilities/image.css */
+@layer utilities {
+  .frame {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--frame-radius, var(--radius));
+    background: var(--frame-bg, var(--surface-1));
+    /* no default aspect-ratio here */
+  }
+
+  /* opt-in ratio helpers only when you *want* them */
+  .ratio-1-1  { aspect-ratio: 1 / 1; }
+  .ratio-16-9 { aspect-ratio: 16 / 9; }
+  .ratio-auto { aspect-ratio: auto; } /* explicit override */
+
+  .pad  { padding: var(--frame-padding, var(--space-4)); }
+  .ring { box-shadow: 0 0 0 1px var(--surface-border) inset, var(--shadow-1); }
+
+  /* Image behaviors */
+  .img-contain { inline-size: 100%; block-size: auto; object-fit: contain; object-position: center; }
+  .img-cover  { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center; }
+  .img-fluid  { display: block; max-inline-size: 100%; block-size: auto; }
+}
+

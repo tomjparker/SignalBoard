@@ -1,0 +1,40 @@
+/* utilities/cards.css */
+@layer utilities {
+  /* CardStack = context provider for card colors */
+  .card-stack {
+    /* sensible defaults from the ramp */
+    --card-bg: var(--surface-2);
+    --card-fg: var(--text-1);
+    --card-border: var(--border-subtle);
+    --card-padding: var(--space-5);
+  }
+
+  /* Tones: nudge the ramp step WITHOUT caring about light/dark */
+  .card-stack[data-tone="soft"] {
+    --card-bg: var(--surface-3);
+    --card-border: var(--border-strong);
+  }
+
+  .card-stack[data-tone="contrast"] {
+    /* section stays on surface-1, cards drop a step darker */
+    --card-bg: color-mix(in oklch, var(--surface-2) 85%, black);
+  }
+
+  /* Optional: “inverted” section (darker panel, lighter cards) */
+  .card-stack[data-invert="true"] {
+    --section-bg: var(--surface-2);
+    --section-border: var(--border-strong);
+    --card-bg: var(--surface-1);
+    --card-border: var(--border-subtle);
+  }
+
+  /* Card implementation stays variable-driven */
+  .card {
+    background: var(--card-bg);
+    color: var(--card-fg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: var(--card-padding);
+    box-shadow: var(--shadow-1);
+  }
+}

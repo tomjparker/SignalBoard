@@ -1,0 +1,55 @@
+@layer tokens {
+  :root {
+    /* Neutral ramp — LIGHT mode (lighter numbers = lighter surfaces) */
+    --bg:            oklch(99% 0 0);
+    --surface-1:     oklch(98% 0 0);  /* page / section panels */
+    --surface-2:     oklch(96% 0 0);  /* cards on surface-1 */
+    --surface-3:     oklch(93% 0 0);  /* raised cards / headers */
+
+    --border-subtle: oklch(90% 0 0);
+    --border-strong: oklch(84% 0 0);
+
+    --text-1:        oklch(20% 0 0);  /* primary text */
+    --text-2:        oklch(45% 0 0);  /* muted text */
+
+    /* Elevation shadows (tuned per theme) */
+    --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 2px 6px rgba(0,0,0,.08);
+    --shadow-1-top: 0 -1px 0 rgba(0,0,0,.04);
+
+    /* Semantic defaults (used by utilities) */
+    --section-bg:    var(--surface-1);
+    --section-border:var(--border-subtle);
+
+    --card-bg:       var(--surface-2);
+    --card-fg:       var(--text-1);
+    --card-border:   var(--border-subtle);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Neutral ramp — DARK mode (not black; layered greys) */
+      --bg:            oklch(12% 0 0);
+      --surface-1:     oklch(16% 0 0);  /* page / section panels */
+      --surface-2:     oklch(20% 0 0);  /* cards on surface-1 */
+      --surface-3:     oklch(24% 0 0);  /* raised cards / headers */
+
+      --border-subtle: oklch(30% 0 0);
+      --border-strong: oklch(38% 0 0);
+
+      --text-1:        oklch(92% 0 0);
+      --text-2:        oklch(75% 0 0);
+
+      /* Dark-mode shadow: add a faint top highlight + deeper ambient */
+      --shadow-1:      0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.60);
+      --shadow-1-top:  0 -1px 0 rgba(255,255,255,.05);
+
+      /* Keep semantics mapping to the ramp */
+      --section-bg:    var(--surface-1);
+      --section-border:var(--border-subtle);
+
+      --card-bg:       var(--surface-2);
+      --card-fg:       var(--text-1);
+      --card-border:   var(--border-subtle);
+    }
+  }
+}

@@ -1,0 +1,38 @@
+/* Spacing tokens (used by layout + utilities) */
+:root {
+  /* Base (4px scale) */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4px  */
+  --space-2: 0.5rem;   /* 8px  */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+
+  /* Friendly aliases */
+  --space-2xs: var(--space-1);
+  --space-xs:  var(--space-2);
+  --space-sm:  var(--space-3);
+  --space-md:  var(--space-4);
+  --space-lg:  var(--space-5);
+  --space-xl:  var(--space-6);
+  --space-2xl: var(--space-7);
+  --space-3xl: var(--space-8);
+
+  /* Fluid steps (scale with viewport) */
+  --space-fluid-sm: clamp(var(--space-2), 1vw, var(--space-3));
+  --space-fluid-md: clamp(var(--space-3), 2vw, var(--space-5));
+  --space-fluid-lg: clamp(var(--space-4), 3vw, var(--space-7));
+}
+
+/* Optional density tweak:
+   <html data-density="compact"> … </html>
+*/
+:root[data-density="compact"] {
+  --space-5: 1.25rem;
+  --space-6: 1.75rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+}
