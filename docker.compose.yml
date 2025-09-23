@@ -17,16 +17,16 @@ services:
       timeout: 3s
       retries: 10
     
-    api:
-    build: ../api
-    environment:
-      DATABASE_URL: postgresql://signalboard:devpass@db:5432/signalboard_dev
-      PORT: 4000
-    ports:
-      - "4000:4000"
-    depends_on:
-      db:
-        condition: service_healthy
+    # api:
+    # build: ./api
+    # environment:
+    #   DATABASE_URL: postgresql://signalboard:devpass@db:5432/signalboard_dev
+    #   PORT: 4000
+    # ports:
+    #   - "4000:4000"
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
 
 volumes:
   postgres_data:
