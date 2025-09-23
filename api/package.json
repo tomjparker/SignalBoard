@@ -1,18 +1,29 @@
 {
   "name": "api",
+  "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express backend for application",
   "main": "index.js",
   "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/express": "github:types/express",
-    "@types/node": "^24.5.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^20.19.17",
+    "@types/serve-static": "^1.15.8",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "prom-client": "^15.1.3"
   }
 }
