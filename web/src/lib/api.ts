@@ -107,7 +107,7 @@ async function readErrorDetail(res: Response): Promise<string> {
 			// By Validation { errors: [...] } or { errors: { field: [messages] } }
 			const errs = (data as { errors?: unknown }).errors;
 			if (Array.isArray(errs)) {
-				const msgs = errs.map(pickString).filter(Boolean) as string[];
+				const msgs = errs.map(pickString).filter(Boolean) as string[]; // agressive typecasting drops non truthy values, but also empty strings, might want to revisit later
 				if (msgs.length) return msgs.join("; ")
 			} else if (isRecord(errs)) {
 				const msgs: string[] = [];
@@ -122,7 +122,7 @@ async function readErrorDetail(res: Response): Promise<string> {
 			if (Array.isArray(issues)) {
 				const msgs = issues
 					.map((i) => (isRecord(i) && typeof i.message === "string" ? i.message : undefined))
-					.filter(Boolean) as string[] // agressive typecasting drops non truthy values, but also empty strings, might want to revisit later
+					.filter(Boolean) as string[] 
 				if (msgs.length) return msgs.join("; ")
 			}
 			return JSON.stringify(data);
@@ -201,21 +201,21 @@ export const get = <T>(
   opts?: Omit<HTTPOptions, "method" | "body">
 ) => httpRequest<T>(path, { ...opts, method: "GET" });
 
-export const post = <T, B = unknown>(
+export const post = <T>(
   path: string,
-  body?: B,
+  body?: BodyLike,
   opts?: Omit<HTTPOptions, "method" | "body">
 ) => httpRequest<T>(path, { ...opts, method: "POST", body });
 
-export const put = <T, B = unknown>(
+export const put = <T>(
   path: string,
-  body?: B,
+  body?: BodyLike,
   opts?: Omit<HTTPOptions, "method" | "body">
 ) => httpRequest<T>(path, { ...opts, method: "PUT", body });
 
-export const patch = <T, B = unknown>(
+export const patch = <T>(
   path: string,
-  body?: B,
+  body?: BodyLike,
   opts?: Omit<HTTPOptions, "method" | "body">
 ) => httpRequest<T>(path, { ...opts, method: "PATCH", body });
 
