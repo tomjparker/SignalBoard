@@ -107,7 +107,7 @@ async function readErrorDetail(res: Response): Promise<string> {
 			// By Validation { errors: [...] } or { errors: { field: [messages] } }
 			const errs = (data as { errors?: unknown }).errors;
 			if (Array.isArray(errs)) {
-				const msgs = errs.map(pickstring).filter(boolean) as string[];
+				const msgs = errs.map(pickString).filter(Boolean) as string[];
 				if (msgs.length) return msgs.join("; ")
 			} else if (isRecord(errs)) {
 				const msgs: string[] = [];
@@ -122,14 +122,21 @@ async function readErrorDetail(res: Response): Promise<string> {
 			if (Array.isArray(issues)) {
 				const msgs = issues
 					.map((i) => (isRecord(i) && typeof i.message === "string" ? i.message : undefined))
+					.filter(Boolean) as string[]
+				if (msgs.length) return msgs.join("; ")
 			}
-			}
+			return JSON.stringify(data);
 		}
-
-
-
-		
-
+	} catch (_err) {
+		console.error("error in read error:", _err)
+		// Fall though
+	}
+	try {
+    const text = await res.text();
+    return text || "";
+	} catch (_err) {
+		console.error("error in parse:", _err)
+		return "";
 	}
 }
 
