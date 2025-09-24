@@ -39,3 +39,5 @@ docker compose -f infra/docker-compose.yml up -d  // to spin up the postgres (po
 
 npm i -D prisma
 npm i @prisma/client
+
+Browser <--(fetch)--> Vite dev server <--(proxy)--> Express API <---> Database
