@@ -101,7 +101,7 @@ async function readErrorDetail(res: Response): Promise<string> {
 			const simple = 
 				pickString(data.error) ??
 				pickString(data.message) ??
-				pickString((data as { datail?: unknown}).detail);
+				pickString((data as { detail?: unknown}).detail);
 			if (simple) return simple;
 
 			// By Validation { errors: [...] } or { errors: { field: [messages] } }
@@ -122,7 +122,7 @@ async function readErrorDetail(res: Response): Promise<string> {
 			if (Array.isArray(issues)) {
 				const msgs = issues
 					.map((i) => (isRecord(i) && typeof i.message === "string" ? i.message : undefined))
-					.filter(Boolean) as string[]
+					.filter(Boolean) as string[] // agressive typecasting drops non truthy values, but also empty strings, might want to revisit later
 				if (msgs.length) return msgs.join("; ")
 			}
 			return JSON.stringify(data);
