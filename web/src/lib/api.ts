@@ -75,7 +75,7 @@ function withQuery(path: string, query?: Record<string, unknown>) {
   return `${path}?${usp.toString()}`;
 }
 
-function isRecord(v: unknown): v is Record<string, unknown> {
+function isRecord(v: unknown): v is Record<string, unknown> { // Type predicate (narrows the type and returns its validity higher up. Helps runtime checks)
   return typeof v === "object" && v !== null && !Array.isArray(v)
 }
 
@@ -273,3 +273,10 @@ export const withAuth = (token?: string): Pick<HTTPOptions, "headers"> =>
   token
     ? { headers: { Authorization: `Bearer ${token}` } }
     : { headers: {} };
+
+
+
+
+
+    const nums = [1,2,3];
+    const doubledNums = nums.map(x => x + 1);
