@@ -5,11 +5,14 @@ import "dotenv/config";
 
 import healthRoute from "./routes/health.js";
 import metricsRoute from "./routes/metrics.js";
+import boardsRoute from "./routes/boards.js";
+import issuesRoute from "./routes/issues.js";
 import { httpLatency } from "./metrics.js";
+import { prisma } from "./db.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // --- Request latency tracking --- //
@@ -26,6 +29,24 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use(healthRoute);
 app.use(metricsRoute);
+app.use(boardsRoute);
+app.use(issuesRoute);
+
+app.get("/readyz", async (_req: Request, res: Response) => {
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        res.json({ ok: true });
+    } catch (e) {
+        res.status(503).json({ok: false});
+    }
+});
+
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => { // Need to switch to err: unknown but this requires type checks so a job for later.
+    const status = err?.status ?? 500;
+    const message = err?.message ?? "Internal Server Error";
+    if (status >= 500) console.error(err);
+    res.status(status).json({ error: message });
+})
 
 const port = Number(process.env.PORT) || 4000;
 app.listen(port, () => {
