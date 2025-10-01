@@ -2,20 +2,22 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import { prisma } from "../db.js";
-import { createIssueSchema, updateIssueStatusSchema } from "../lib/validate.js";
+import { createIssueSchema, updateIssueStatusSchema, createBoardSchema } from "../lib/validate.js";
+import type { Prisma } from '../db.js';
 
 const r = Router();
 
 // POST /api/boards/:slug/issues — create issue
-r.post("/api/boards/:slug/issues", async (req: Request, res: Response) => {
+r.post("/api/boards/:slug/issues", async (req: Request<{ slug: string }>, res: Response) => {
   const { slug } = req.params;
+  const whereBoardBySlug: Prisma.BoardWhereUniqueInput = { slug };
   const input = createIssueSchema.parse(req.body);
 
   const board = await prisma.board.findUnique({ where: { slug }, select: { id: true } });
   if (!board) return res.status(404).json({ error: "Board not found" });
 
   const issue = await prisma.issue.create({
-    data: { boardId: board.id, title: input.title, description: input.description },
+    data: { boardId: board.id, title: input.title, description: input.description ?? null },
     select: { id: true, title: true, status: true, createdAt: true },
   });
 
@@ -23,7 +25,7 @@ r.post("/api/boards/:slug/issues", async (req: Request, res: Response) => {
 });
 
 // PATCH /api/issues/:id/status — update status
-r.patch("/api/issues/:id/status", async (req: Request, res: Response) => {
+r.patch("/api/issues/:id/status", async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
   const { status } = updateIssueStatusSchema.parse(req.body);
 
@@ -37,7 +39,7 @@ r.patch("/api/issues/:id/status", async (req: Request, res: Response) => {
 });
 
 // GET /api/boards/:slug/issues — list issues (filter + pagination)
-r.get("/api/boards/:slug/issues", async (req: Request, res: Response) => {
+r.get("/api/boards/:slug/issues", async (req: Request<{ slug: string }>, res: Response) => {
   const { slug } = req.params;
   const status = (req.query.status as string) || undefined;
   const take = Math.min(parseInt(String(req.query.take ?? "20"), 10), 100);
@@ -54,7 +56,9 @@ r.get("/api/boards/:slug/issues", async (req: Request, res: Response) => {
     select: { id: true, title: true, status: true, createdAt: true },
   });
 
-  const nextCursor = issues.length === take ? issues[issues.length - 1].id : null;
+  // Only applies when we have more pages
+  const last = issues.at(-1) // errors at undefined if arr empty
+  const nextCursor = take > 0 && issues.length === take && last ? last.id : null;
   res.json({ items: issues, nextCursor });
 });
 
