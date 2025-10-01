@@ -40,6 +40,6 @@ model Issue {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  @@index([boardId, createdAt])          // common list/sort pattern
-  @@index([status])
+  @@index([boardId, createdAt])          // common list/sort pattern - compound index: the DB optimizes queries that filter by boardId and sort or filter by createdAt.
+  @@index([status])   // Index basically premaps certain columns to increase speed. 
 }
