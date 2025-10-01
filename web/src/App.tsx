@@ -1,12 +1,164 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 // import Eclipse from "@/assets";
 // import Sun from "@/assets/sun-icon.png";
 
 /**
  * Imported global CSS once already in main.tsx:
  */
+
+function EditableText({
+  value,
+  onChange,
+  placeholder = "Click to edit…",
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  placeholder?: string;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setDraft(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (editing) inputRef.current?.focus();
+  }, [editing]);
+
+  function commit() {
+    if (draft !== value) onChange(draft.trim());
+    setEditing(false);
+  }
+  function cancel() {
+    setDraft(value);
+    setEditing(false);
+  }
+
+  if (!editing) {
+    return (
+      <button
+        type="button"
+        className="inline-flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-100"
+        onClick={() => setEditing(true)}
+        aria-label="Edit text"
+        title="Click to edit"
+      >
+        <span className={value ? "" : "muted"}>
+          {value || placeholder}
+        </span>
+        <span aria-hidden>✏️</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="inline-flex items-center gap-2">
+      <input
+        ref={inputRef}
+        className="border rounded px-2 py-1"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") commit();
+          if (e.key === "Escape") cancel();
+        }}
+      />
+      <button className="text-sm" onClick={commit}>Save</button>
+      <button className="text-sm" onClick={cancel}>Cancel</button>
+    </div>
+  );
+}
+
+type Item = { id: string; label: string };
+
+function DraggableCard({ item }: { item: Item }) {
+  return (
+    <div
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.setData("text/plain", item.id);
+        e.dataTransfer.effectAllowed = "move";
+      }}
+      className="card px-3 py-2 cursor-move"
+      role="listitem"
+      aria-label={`Drag ${item.label}`}
+      title="Drag me"
+    >
+      {item.label}
+    </div>
+  );
+}
+
+function DroppableZone({
+  title,
+  items,
+  onDropIds,
+  hint = "Drag items here",
+}: {
+  title: string;
+  items: Item[];
+  onDropIds: (ids: string[]) => void;
+  hint?: string;
+}) {
+  const [hover, setHover] = useState(false);
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    const dt = e.dataTransfer;
+    const id = dt.getData("text/plain"); // simple single-id drop
+    if (id) onDropIds([id]);
+    setHover(false);
+  }
+
+  return (
+    <section
+      onDragOver={(e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        setHover(true);
+      }}
+      onDragLeave={() => setHover(false)}
+      onDrop={handleDrop}
+      className={`stack surface p-3 ${hover ? "ring-2 ring-blue-500" : ""}`}
+      style={{ "--stack-gap": "var(--space-3)" }}
+      aria-label={title}
+    >
+      <h3 className="tracking-tight">{title}</h3>
+      {items.length === 0 ? (
+        <div className="muted text-sm">{hint}</div>
+      ) : (
+        <div className="grid" style={{ "--grid-min": "12rem" }}>
+          {items.map((it) => (
+            <DraggableCard key={it.id} item={it} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function App() {
   const [count, setCount] = useState(0)
+  const [title, setTitle] = useState("Template Site");
+
+  // inside App()
+  const [left, setLeft] = useState<Item[]>([
+    { id: "a", label: "Alpha" },
+    { id: "b", label: "Beta" },
+    { id: "c", label: "Gamma" },
+  ]);
+  const [right, setRight] = useState<Item[]>([]);
+
+  function move(ids: string[], from: Item[], to: Item[], setFrom: any, setTo: any) {
+    const picked = from.filter((i) => ids.includes(i.id));
+    if (picked.length === 0) return;
+    setFrom(from.filter((i) => !ids.includes(i.id)));
+    setTo([...to, ...picked]);
+  }
+
 
   return (
     <div className="page">
@@ -116,6 +268,24 @@ export default function App() {
             <article className="card">Result C</article>
             <article className="card">Result D</article>
           </div>
+        </section>
+
+        <section className="switcher" style={{ '--switcher-threshold': '40rem' }}>
+          <h1 className="tracking-tight align-center">
+            <EditableText value={title} onChange={setTitle} />
+          </h1>
+          <DroppableZone
+            title="Backlog"
+            items={left}
+            onDropIds={(ids) => move(ids, right, left, setRight, setLeft)}
+            hint="Drag from the other column"
+          />
+          <DroppableZone
+            title="Selected"
+            items={right}
+            onDropIds={(ids) => move(ids, left, right, setLeft, setRight)}
+            hint="Drop items to add here"
+          />
         </section>
 
         {/* Switcher: row -> column under threshold */}
