@@ -21,42 +21,98 @@ export type Board = {
   updatedAt?: string;
 };
 
-/* Helpers */
-function withQuery(path: string, query?: Record<string, unknown>) {
-  if (!query || Object.keys(query).length === 0) return path;
-  const usp = new URLSearchParams();
-  for (const [k, v] of Object.entries(query)) {
-    if (v === undefined || v === null) continue;
-    Array.isArray(v) ? v.forEach(x => usp.append(k, String(x))) : usp.append(k, String(v));
-  }
-  return `${path}?${usp.toString()}`;
-}
-
+// --- Type guards ---
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
-function pickString(v: unknown): string | undefined {
-  if (typeof v === "string") return v;
-  if (Array.isArray(v)) {
-    const msgs = v.filter((x): x is string => typeof x === "string");
-    if (msgs.length) return msgs.join("; ");
+function isString(v: unknown): v is string {
+  return typeof v === "string";
+}
+function isStringArray(v: unknown): v is string[] {
+  return Array.isArray(v) && v.every(isString);
+}
+
+// pick first useful string from various shapes - determines if it is useable as a string, if not return undefined to let the type linter understand
+function pickString(u: unknown): string | undefined { 
+  if (isString(u)) return u;
+  if (isStringArray(u)) return u.join("; ");
+  if (Array.isArray(u)) {
+    const msgs = u.map(pickString).filter(Boolean) as string[];
+    return msgs.length ? msgs.join("; ") : undefined;
+  }
+  if (isRecord(u)) {
+    // common keys first
+    const direct =
+      (isString(u.error) && u.error) ||
+      (isString(u.message) && u.message) ||
+      (isString(u.detail) && u.detail);
+    if (direct) return direct;
+
+    // { errors: [...] } or { errors: { field: [..] } }
+    if ("errors" in u) {
+      const s = pickString(u.errors);
+      if (s) return s;
+    }
+
+    // { issues: [{ message: "..." }, ...] } (zod-like)
+    if ("issues" in u) {
+      const val = u.issues;
+      if (Array.isArray(val)) {
+        const msgs = val
+          .map(i => (isRecord(i) && isString(i.message) ? i.message : pickString(i)))
+          .filter(Boolean) as string[];
+        if (msgs.length) return msgs.join("; ");
+      } else {
+        const s = pickString(val);
+        if (s) return s;
+      }
+    }
+
+    // fallback: look through values for a string
+    for (const v of Object.values(u)) {
+      const s = pickString(v);
+      if (s) return s;
+    }
   }
   return undefined;
 }
 
-async function readErrorDetail(res: Response): Promise<string> {
+/* Helpers */
+function withQuery(path: string, query?: Record<string, unknown>) {
+  if (!query || Object.keys(query).length === 0) return path;
+  const usp = new URLSearchParams();
+
+  for (const [k, v] of Object.entries(query)) {
+    if (v === undefined || v === null) continue;
+
+    if (Array.isArray(v)) {
+      v.forEach(x => usp.append(k, String(x)));
+    } else {
+      usp.append(k, String(v));
+    }
+  }
+
+  return `${path}?${usp.toString()}`;
+}
+
+export async function readErrorDetail(res: Response): Promise<string> {
   try {
     const data: unknown = await res.clone().json();
+
     if (isRecord(data)) {
+      // access via index keys; TS sees data as Record<string, unknown>
       const simple =
-        pickString(data.error) ??
-        pickString(data.message) ??
-        pickString((data as { detail?: unknown }).detail);
+        pickString(data["error"]) ??
+        pickString(data["message"]) ??
+        pickString(data["detail"]);
       if (simple) return simple;
 
-      const errs = (data as { errors?: unknown }).errors;
+      // { errors: [...] } or { errors: { field: [..] | "..." } }
+      const errs = data["errors"];
       if (Array.isArray(errs)) {
-        const msgs = errs.map(pickString).filter(Boolean) as string[];
+        const msgs = errs
+          .map(pickString)
+          .filter((s): s is string => typeof s === "string");
         if (msgs.length) return msgs.join("; ");
       } else if (isRecord(errs)) {
         const msgs: string[] = [];
@@ -67,16 +123,27 @@ async function readErrorDetail(res: Response): Promise<string> {
         if (msgs.length) return msgs.join("; ");
       }
 
-      const issues = (data as { issues?: unknown }).issues;
+      // { issues: [{ message: "..." }, ...] } (zod-like) OR mixed
+      const issues = data["issues"];
       if (Array.isArray(issues)) {
         const msgs = issues
-          .map(i => (isRecord(i) && typeof (i as any).message === "string" ? (i as any).message : undefined))
-          .filter(Boolean) as string[];
+          .map((i) => {
+            if (isRecord(i) && typeof i["message"] === "string") return i["message"];
+            return pickString(i);
+          })
+          .filter((s): s is string => typeof s === "string");
         if (msgs.length) return msgs.join("; ");
       }
+
+      // fallback: stringify object
       return JSON.stringify(data);
     }
-  } catch {}
+  } catch (err) {
+    // JSON parse failed; fall through to text
+    console.error("readErrorDetail json parse:", err);
+  }
+
+  // final fallback: text
   try {
     return (await res.text()) || "";
   } catch {
@@ -89,7 +156,7 @@ type HttpOpts = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   query?: Record<string, unknown>;
   headers?: Record<string, string>;
-  body?: any;              // object => JSON, FormData passes through
+  body?: unknown;              // object => JSON, FormData passes through
   timeoutMs?: number;
   signal?: AbortSignal;
 };
@@ -140,8 +207,8 @@ export async function http<T>(path: string, opts: HttpOpts = {}): Promise<T> {
 
 /* Ergonomic verbs (optional) */
 export const get  = <T>(p: string, o?: Omit<HttpOpts, "method" | "body">) => http<T>(p, { ...o, method: "GET" });
-export const post = <T>(p: string, body?: any, o?: Omit<HttpOpts, "method">) => http<T>(p, { ...o, method: "POST", body });
-export const patch= <T>(p: string, body?: any, o?: Omit<HttpOpts, "method">) => http<T>(p, { ...o, method: "PATCH", body });
+export const post = <T>(p: string, body?: unknown, o?: Omit<HttpOpts, "method">) => http<T>(p, { ...o, method: "POST", body });
+export const patch= <T>(p: string, body?: unknown, o?: Omit<HttpOpts, "method">) => http<T>(p, { ...o, method: "PATCH", body });
 export const del  = <T>(p: string, o?: Omit<HttpOpts, "method" | "body">) => http<T>(p, { ...o, method: "DELETE" });
 
 /* Resource-specific helpers that match your Express routes */
