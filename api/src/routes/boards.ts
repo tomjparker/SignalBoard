@@ -2,7 +2,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import { prisma } from "../db.js";
-import { createBoardSchema } from "../validate.js";
+import { createBoardSchema } from "../lib/validate.js";
 
 const r = Router();
 
