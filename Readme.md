@@ -41,3 +41,10 @@ npm i -D prisma
 npm i @prisma/client
 
 Browser <--(fetch)--> Vite dev server <--(proxy)--> Express API <---> Database
+
+docker compose up -d
+
+npx prisma migrate dev --name init
+npx prisma generate
+
+docker stop $(docker ps -q)
