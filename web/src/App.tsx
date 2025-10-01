@@ -72,8 +72,6 @@ function EditableText({
   );
 }
 
-type Item = { id: string; label: string };
-
 function DraggableCard({ item }: { item: Item }) {
   return (
     <div
@@ -140,6 +138,37 @@ function DroppableZone({
   );
 }
 
+type Item = { id: string; label: string };
+
+type SetItems = React.Dispatch<React.SetStateAction<Item[]>>;
+
+function moveItems(
+  ids: string[],
+  from: Item[],
+  to: Item[],
+  setFrom: SetItems,
+  setTo: SetItems
+) {
+  if (ids.length === 0) return;
+
+  const idSet = new Set(ids);
+
+  const picked: Item[] = [];
+  const remainingFrom: Item[] = [];
+  for (const it of from) {
+    (idSet.has(it.id) ? picked : remainingFrom).push(it);
+  }
+
+  if (picked.length === 0) return;
+
+  // Optional: prevent duplicates in the target
+  const existing = new Set(to.map(i => i.id));
+  const deduped = picked.filter(i => !existing.has(i.id));
+
+  setFrom(remainingFrom);
+  setTo(prev => [...prev, ...deduped]);
+}
+
 export default function App() {
   const [count, setCount] = useState(0)
   const [title, setTitle] = useState("Template Site");
@@ -151,14 +180,6 @@ export default function App() {
     { id: "c", label: "Gamma" },
   ]);
   const [right, setRight] = useState<Item[]>([]);
-
-  function move(ids: string[], from: Item[], to: Item[], setFrom: any, setTo: any) {
-    const picked = from.filter((i) => ids.includes(i.id));
-    if (picked.length === 0) return;
-    setFrom(from.filter((i) => !ids.includes(i.id)));
-    setTo([...to, ...picked]);
-  }
-
 
   return (
     <div className="page">
@@ -277,13 +298,13 @@ export default function App() {
           <DroppableZone
             title="Backlog"
             items={left}
-            onDropIds={(ids) => move(ids, right, left, setRight, setLeft)}
+            onDropIds={(ids) => moveItems(ids, right, left, setRight, setLeft)}
             hint="Drag from the other column"
           />
           <DroppableZone
             title="Selected"
             items={right}
-            onDropIds={(ids) => move(ids, left, right, setLeft, setRight)}
+            onDropIds={(ids) => moveItems(ids, left, right, setLeft, setRight)}
             hint="Drop items to add here"
           />
         </section>
