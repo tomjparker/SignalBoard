@@ -151,7 +151,7 @@ function moveItems(
 ) {
   if (ids.length === 0) return;
 
-  const idSet = new Set(ids);
+  const idSet = new Set(ids); // Using a set here ensures performance doesnt slow down as the list grows - its a bit like a hashtable which is 0(1)
 
   const picked: Item[] = [];
   const remainingFrom: Item[] = [];
