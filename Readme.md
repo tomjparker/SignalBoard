@@ -48,3 +48,11 @@ npx prisma migrate dev --name init
 npx prisma generate
 
 docker stop $(docker ps -q)
+
+For context we have a higher level node modules at project, this is for shared resources between api and web. 
+
+http://localhost:4000/healthz
+curl http://localhost:4000/readyz
+ 
+npx prisma db push  // (from ./api)
+npx tsx prisma/seed.ts

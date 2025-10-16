@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { BoardsAPI, type Board } from "./lib/api";
 // import Eclipse from "@/assets";
 // import Sun from "@/assets/sun-icon.png";
 
@@ -151,7 +152,7 @@ function moveItems(
 ) {
   if (ids.length === 0) return;
 
-  const idSet = new Set(ids);
+  const idSet = new Set(ids); // Using a set here ensures performance doesnt slow down as the list grows - its a bit like a hashtable which is 0(1)
 
   const picked: Item[] = [];
   const remainingFrom: Item[] = [];
@@ -172,6 +173,9 @@ function moveItems(
 export default function App() {
   const [count, setCount] = useState(0)
   const [title, setTitle] = useState("Template Site");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [boards, setBoards] = useState<Board[]>([]);
 
   // inside App()
   const [left, setLeft] = useState<Item[]>([
@@ -180,6 +184,15 @@ export default function App() {
     { id: "c", label: "Gamma" },
   ]);
   const [right, setRight] = useState<Item[]>([]);
+
+  useEffect(() => {
+    BoardsAPI.list()
+      .then((data) => setBoards(data))
+      .catch((error: Error) => setError(error.message))
+      .finally(() => setLoading(false));
+
+      console.log("Board fetch error:", error)
+  }, []);
 
   return (
     <div className="page">
@@ -235,6 +248,27 @@ export default function App() {
         className="container stack"
         style={{ '--stack-gap': 'var(--space-7)' }}
       >
+        <section
+          className="surface stack"
+          style={{ '--stack-gap': 'var(--space-6)' }}
+        >
+          <h1 className="tracking-tight">Project Feed</h1>
+          {loading ? (
+            <p>Loading boards...</p>
+          ) : boards.length === 0 ? (
+            <p>No boards available</p>
+          ) : (
+            <ul className="stack">
+              {boards.map((board) => (
+                <li key={board.id} className="card p-3">
+                  <h3>{board.name}</h3>
+                  <small className="muted">/{board.slug}</small>
+                </li>
+              ))}
+            </ul>
+          )}
+        
+        </section>
         <section
           className="surface stack"
           style={{ '--stack-gap': 'var(--space-6)' }}
