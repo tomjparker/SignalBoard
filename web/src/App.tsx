@@ -1,5 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, reactRouter } from 'react';
 import { BoardsAPI, type Board } from "./lib/api";
+import BoardsPage from "./pages/boardsPage";
+
 // import Eclipse from "@/assets";
 // import Sun from "@/assets/sun-icon.png";
 
@@ -92,17 +94,17 @@ function DraggableCard({ item }: { item: Item }) {
 }
 
 function DroppableZone({
-  title,
-  items,
-  onDropIds,
-  hint = "Drag items here",
-}: {
-  title: string;
-  items: Item[];
-  onDropIds: (ids: string[]) => void;
-  hint?: string;
+	title,
+	items,
+	onDropIds,
+	hint = "Drag items here",
+} : {
+	title: string;
+	items: Item[];
+	onDropIds: (ids: string[]) => void;
+	hint?: string;
 }) {
-  const [hover, setHover] = useState(false);
+const [hover, setHover] = useState(false);
 
   function handleDrop(e: React.DragEvent) {
     e.preventDefault();
