@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BoardsAPI, type Board } from "../lib/api";
+import { BoardsAPI }from "../lib/api";
 
 export default function BoardsFeed() {
   const [boards, setBoards] = useState<Board[]>([]);

@@ -1,14 +1,8 @@
-import { useState, useRef, useEffect, reactRouter } from 'react';
-import { BoardsAPI, type Board } from "./lib/api";
-import BoardsPage from "./pages/boards";
-import { Footer, Header } from  "./components"
-import BoardsFeed from "./components/BoardsFeed";
-
-// import Eclipse from "@/assets";
-// import Sun from "@/assets/sun-icon.png";
+import { useState } from "react";
+import { Header, Footer, BoardsFeed } from "./components";
 
 /**
- * Imported global CSS once already in main.tsx:
+ * Imported global CSS once already in main.tsx
  */
 
 export default function App() {
@@ -31,7 +25,7 @@ export default function App() {
           <div>
             <img
               className="img-contain"
-              src={"../public/sun.jpg"}
+              src="../public/sun.jpg"
               alt="sun icon"
               width={256}
               height={256}
@@ -47,7 +41,9 @@ export default function App() {
           </p>
 
           <div className="flex row items-center justify-center gap-4">
-            <button onClick={() => setCount((c) => c + 1)}>Count is {count}</button>
+            <button onClick={() => setCount((c) => c + 1)}>
+              Count is {count}
+            </button>
             <a href="#" className="text-sm">
               Read the docs
             </a>
@@ -55,7 +51,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* BoardsFeed (now self-contained) */}
+      {/* BoardsFeed (self-contained component) */}
       <BoardsFeed />
 
       <Footer />
