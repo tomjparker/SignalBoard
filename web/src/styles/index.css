@@ -4,6 +4,8 @@ last so they can act as an override */
 
 @import "./base/reset.css" layer(reset);
 
+@import "./components/navigation.css" layer(components);
+
 @import "./tokens/breakpoints.css" layer(tokens);
 @import "./tokens/colors.css" layer(tokens);
 @import "./tokens/sizing.css" layer(tokens);

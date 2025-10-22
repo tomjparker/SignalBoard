@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header, Footer, BoardsFeed, MediaBlock } from "./components/index";
+import { Header, Footer, BoardsFeed, MediaBlock, NavBar } from "./components/index";
 import Eclipse from "@/img/eclipse.svg?react";
 
 
@@ -15,6 +15,7 @@ export default function App() {
 
   return (
     <div className="page">
+      <NavBar />
       <Header />
 
       {/* Hero Section */}
@@ -57,13 +58,7 @@ export default function App() {
             title="Scalable Design"
             text="Images and SVGs scale seamlessly with text. Use this for about sections, feature highlights, or onboarding cards."
             reverse
-          />
-
-          
-
-          
-
-          
+          /> 
         </div>
       </section>
 

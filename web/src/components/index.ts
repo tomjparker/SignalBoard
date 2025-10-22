@@ -8,3 +8,4 @@ export { default as EditableText } from "./EditableText";
 export { default as DropableZone } from "./DropableZone";
 export { default as Logo } from "./Images";
 export { default as MediaBlock } from "./MediaBlock";
+export { default as NavBar } from "./NavBar"
