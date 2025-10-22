@@ -6,4 +6,5 @@ export { default as BoardsFeed } from "./BoardsFeed";
 export { default as TaskBoard } from "./TaskBoard";
 export { default as EditableText } from "./EditableText";
 export { default as DropableZone } from "./DropableZone";
-export { default as Logo } from "./Images"
+export { default as Logo } from "./Images";
+export { default as MediaBlock } from "./MediaBlock";

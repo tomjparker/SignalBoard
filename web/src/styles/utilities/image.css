@@ -1,17 +1,12 @@
-/* utilities/image.css */
 @layer utilities {
   .frame {
     display: block;
     overflow: hidden;
     border-radius: var(--frame-radius, var(--radius));
     background: var(--frame-bg, var(--surface-1));
-    /* no default aspect-ratio here */
+    /* optional border or subtle inner ring */
+    box-shadow: var(--frame-shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
   }
-
-  /* opt-in ratio helpers only when you *want* them */
-  .ratio-1-1  { aspect-ratio: 1 / 1; }
-  .ratio-16-9 { aspect-ratio: 16 / 9; }
-  .ratio-auto { aspect-ratio: auto; } /* explicit override */
 
   .pad  { padding: var(--frame-padding, var(--space-4)); }
   .ring { box-shadow: 0 0 0 1px var(--surface-border) inset, var(--shadow-1); }
@@ -22,3 +17,64 @@
   .img-fluid  { display: block; max-inline-size: 100%; block-size: auto; }
 }
 
+ @layer utilities {
+  /* Layout container that uses .frame tokens */
+  .media-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5, 2rem);
+    margin-bottom: var(--space-7, 3rem);
+
+    /* 👇 uses your .frame token variables */
+    border-radius: var(--frame-radius, var(--radius));
+    background: var(--frame-bg, var(--surface-1));
+    box-shadow: var(--frame-shadow, 0 4px 16px rgba(0, 0, 0, 0.1));
+    padding: var(--frame-padding, var(--space-6, 2rem));
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .media-block:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 768px) {
+    .media-block {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .media-block.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .media-image {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 320px;
+  }
+
+  .media-text {
+    flex: 1 1 50%;
+    max-width: 60ch;
+    text-align: center;
+    padding: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .media-text {
+      text-align: left;
+    }
+  }
+
+  .media-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--frame-radius, var(--radius));
+    object-fit: contain;
+  }
+}

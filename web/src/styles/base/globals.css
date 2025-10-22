@@ -1,21 +1,34 @@
-/* tokens only in :root */
+/* ========= Base Tokens ========= */
 :root {
   --radius: 0.5rem;
+
+  /* Default theme: light */
+  color-scheme: light;
+  --surface-1: #ffffff;
+  --text-color: #111111;
 }
 
-/* full-viewport canvas */
+/* ========= Dark Mode Overrides ========= */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --surface-1: #111111;
+  --text-color: #f3f3f3;
+}
+
+/* ========= Base Layout ========= */
 :where(html, body, #root) { min-height: 100%; }
 :where(#root, .page) { inline-size: 100%; }
 
 body {
-  margin: 0;                      /* remove default body margin */
+  margin: 0;
   min-block-size: 100dvb;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  background: Canvas;
-  color: CanvasText;
+  background: var(--surface-1);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* A generic page wrapper */
+/* Page wrapper */
 .page { display: block; min-block-size: 100dvb; }
 
 /* Longform content */
@@ -25,7 +38,7 @@ body {
   padding-inline: var(--container-inline-padding, 1rem);
 }
 
-/* demo styles (optional – consider moving to component CSS Modules) */
+/* Demo styles (optional) */
 .logo { height: 6em; padding: 1.5em; will-change: filter; transition: filter 300ms; }
 .logo:hover { filter: drop-shadow(0 0 2em #646cffaa); }
 
@@ -39,13 +52,13 @@ body {
 
 .card { padding: 2em; }
 
-/* element defaults via layer if you want to keep them here */
+/* ========= Element Defaults (Layer) ========= */
 @layer base {
-  :where(h1,h2,h3,h4,h5,h6) {
+  :where(h1, h2, h3, h4, h5, h6) {
     font-weight: var(--weight-semibold, 600);
     line-height: var(--lh-tight, 1.2);
     margin: 0 0 var(--space-4, 1rem);
     letter-spacing: var(--tracking-tight, -0.01em);
   }
-  /* …rest of your heading/body/link rules… */
 }
+
