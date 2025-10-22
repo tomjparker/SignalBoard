@@ -56,3 +56,10 @@ curl http://localhost:4000/readyz
  
 npx prisma db push  // (from ./api)
 npx tsx prisma/seed.ts
+
+docker exec -it signalboard_db psql -U signalboard -d signalboard_dev
+
+\dt    // gives overview of data tables
+
+// Note to self, the db needs to be up on a container first, then express then the web frontend
+

@@ -1,5 +1,6 @@
 import { prisma } from "../src/db.js";
 
+// This seeds a database table (e.g. for development) in a safe idempotent way — running the script multiple times won’t duplicate the data.
 async function main() {
   const board = await prisma.board.upsert({
     where: { slug: "demo-board" },

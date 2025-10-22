@@ -1,3 +1,9 @@
+/* ite’s default behavior (and moduleResolution: "bundler") means TypeScript will automatically:
+
+Include all .d.ts files under the include array
+
+And load any ambient types from your "include" paths (e.g., "src" and "types") */
+
 {
   "compilerOptions": {
     /* Language and Environment */
@@ -28,7 +34,8 @@
 
   "include": [
     "src",
-    "global.d.ts"       // 👈 add your CSS vars augmentation here
+    "global.d.ts",
+    "types"
   ],
 
   "exclude": ["node_modules", "dist"]
