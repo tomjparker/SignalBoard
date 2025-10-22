@@ -5,6 +5,10 @@ export default function ComponentsPage() {
         UI Components Showcase
       </h1>
 
+      <p className="lead align-center muted">
+            Layout primitives, sane tokens, and zero-surprise utilities for fast UI work.
+          </p>
+
       {/* Feature grid */}
       <main
         className="container stack"

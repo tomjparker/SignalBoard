@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { Header, Footer, BoardsFeed } from "./components";
+import { Header, Footer, BoardsFeed, Logo } from "./components/index";
+import Eclipse from "@/img/eclipse.svg?react";
 
-/**
- * Imported global CSS once already in main.tsx
- */
+
+// const logos = import.meta.glob("@/img/*.svg", { eager: true, import: "default" });
+
+// {Object.entries(logos).map(([path, src]) => (
+//   <Logo key={path} src={src as string} size={80} />
+// ))}
 
 export default function App() {
   const [count, setCount] = useState(0);
-  const [title] = useState("Template Site");
+  const [title] = useState("Signal Board");
 
   return (
     <div className="page">
@@ -23,22 +27,13 @@ export default function App() {
           } as React.CSSProperties}
         >
           <div>
-            <img
-              className="img-contain"
-              src="../public/sun.jpg"
-              alt="sun icon"
-              width={256}
-              height={256}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
+            <Logo src={Eclipse} size={200} alt="Sun" className="rounded-full shadow-md" />
+          </div>
+          <div>
+            <Logo src="/sun.jpg" size={400} alt="Sun" className="rounded-full shadow-md" />
           </div>
 
           <h1 className="tracking-tight align-center">{title}</h1>
-          <p className="lead align-center muted">
-            Layout primitives, sane tokens, and zero-surprise utilities for fast UI work.
-          </p>
 
           <div className="flex row items-center justify-center gap-4">
             <button onClick={() => setCount((c) => c + 1)}>
