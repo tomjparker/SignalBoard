@@ -7,7 +7,7 @@ export default function NavBar() {
       <nav className="navbar-inner">
         <div className="navbar-brand">
           <NavLink to="/" className="navbar-logo">
-            SignalBoard
+            UI-Library-CSS
           </NavLink>
         </div>
 

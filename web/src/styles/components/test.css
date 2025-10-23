@@ -1,0 +1,165 @@
+/* ================================
+   SCROLL WATCHER PROGRESS BAR
+   ================================ */
+@layer components {
+    .scroll-watcher {
+    height: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: var(--accent-color, grey);
+    width: 100%;
+    scale: 0 1;
+    transform-origin: left;
+    animation: scroll-watcher linear;
+    animation-timeline: scroll(y);
+    /* Fallback: ensure progress bar still visible even if animation-timeline not supported */
+    transition: scale 0.3s ease;
+    }
+
+    /* Modern spec uses @keyframes, not @animation */
+    @keyframes scroll-watcher {
+    to { scale: 1 1; }
+    }
+
+    /* ================================
+    ARTICLE HEADER / HERO BLOCK
+    ================================ */
+
+    .article-header {
+    display: grid;
+    place-items: center;
+    position: relative;
+    height: 100svh;
+    overflow-x: clip;
+    background: var(--surface-1, #fff);
+    color: var(--text-color, #111);
+    text-align: center;
+    }
+
+    .article-header h1,
+    .article-header p {
+    margin: 0;
+    padding-inline: var(--space-4, 1rem);
+    }
+
+    .article-header img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius, 0.5rem);
+    }
+
+    /* ================================
+    SCROLL ANIMATIONS (FADE + SCALE)
+    ================================ */
+
+    @media (prefers-reduced-motion: no-preference) {
+    article > img {
+        scale: 0.8;
+        opacity: 0;
+        animation: fade-in linear forwards;
+        animation-timeline: view(); /* offset driven by scroll position */
+        animation-range: entry; /* alternatives: entry-crossing, exit, cover */
+    }
+
+    @keyframes fade-in {
+        to {
+        scale: 1;
+        opacity: 1;
+        }
+    }
+    }
+
+    /* ================================
+    AUTO-SCROLLING MARQUEE / SCROLLER
+    ================================ */
+
+    .scroller {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+    }
+
+    .scroller::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+    }
+
+    /* When "data-animated" is enabled, switch to animation-driven loop */
+    .scroller[data-animated="true"] {
+    overflow: hidden;
+    /* overflow-x: scroll; */ /* optional fallback */
+    -webkit-mask: linear-gradient(
+        90deg,
+        transparent,
+        white 20%,
+        white 80%,
+        transparent
+    );
+    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+    }
+
+    /* Inner scrolling content */
+    .scroller__inner {
+    display: flex;
+    flex-direction: row; /* ensure horizontal layout */
+    align-items: center;
+    gap: 3rem;
+    animation: scroll-left 25s linear infinite;
+    width: max-content;
+    }
+
+    @keyframes scroll-left {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+    }
+        
+    .media-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0; /* prevents squishing */
+    }
+
+    /* Auto-scrolling animation */
+    .scroller[data-animated="true"] .scroller__inner {
+    animation: scrolling linear infinite;
+    animation-duration: var(--scroll-speed, 20s);
+    }
+
+    /* Reverse direction */
+    .scroller[data-animated="right"] .scroller__inner {
+    animation-direction: reverse;
+    }
+
+    /* ================================
+    KEYFRAMES FOR MARQUEE ANIMATION
+    ================================ */
+
+    @keyframes scrolling {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+    }
+
+    /* Optional background-shift variant */
+    @keyframes bg-shift {
+    to {
+        background-position: 200% center;
+    }
+    }
+}

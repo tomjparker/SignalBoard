@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Header, Footer, BoardsFeed, MediaBlock, NavBar } from "./components/index";
+import { Header, Footer, BoardsFeed, MediaBlock, NavBar, AutoScroller } from "./components/index";
 import Eclipse from "@/img/eclipse.svg?react";
 
 
@@ -15,8 +15,35 @@ export default function App() {
 
   return (
     <div className="page">
+      <div className="scroll-watcher"></div>
       <NavBar />
       <Header />
+
+      {/* <div className="scroll-watcher"></div>
+        <header className="article-header">
+          <h1>Scroll-based animations made easy</h1>
+        </header>
+
+        <article>
+          <img src="/sun.jpg" alt="Demo image" />
+          <img src="/sun.jpg" alt="Demo image" />
+        </article>
+
+        <div className="scroller" data-animated="true">
+          <div className="scroller__inner">
+            <img src="/sun.jpg" alt="HTML" />
+            <img src="/sun.jpg" alt="CSS" />
+            <img src="/sun.jpg" alt="JavaScript" />
+            <img src="/sun.jpg" alt="HTML" />
+            <img src="/sun.jpg" alt="CSS" />
+            <img src="/sun.jpg" alt="JavaScript" />
+          </div>
+        </div> */}
+
+      <section className="container stack align-center">
+        <h2>Animated Scroller</h2>
+        <AutoScroller />
+      </section>
 
       {/* Hero Section */}
       <section className="container cover">
@@ -61,10 +88,6 @@ export default function App() {
           /> 
         </div>
       </section>
-
-      {/* BoardsFeed (self-contained component) */}
-      <BoardsFeed />
-
       <Footer />
     </div>
   );

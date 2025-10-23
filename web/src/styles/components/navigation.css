@@ -1,11 +1,25 @@
 @layer components {
   .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--surface-1);
-    border-bottom: 1px solid var(--surface-border);
-    box-shadow: var(--shadow-1, 0 2px 6px rgba(0, 0, 0, 0.1));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    background-color: var(--surface-1);
+    color: var(--text-color);
+    border-bottom: 1px solid var(--surface-border, rgba(0,0,0,0.1));
+    position: relative;
+    z-index: 10;
+  }
+
+  .navbar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 4px;
+    background-color: var(--nav-base, #000);
+    transition: background-color 0.3s ease;
   }
 
   .navbar-inner {
@@ -15,6 +29,23 @@
     padding: var(--space-4) var(--space-6);
     max-width: 1200px;
     margin-inline: auto;
+  }
+
+  [data-theme="dark"] .navbar::after {
+    background-color: var(--nav-base-dark, #fff);
+  }
+
+  /* Navigation links */
+  .navbar a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    margin-inline: var(--space-3);
+    transition: opacity 0.2s ease;
+  }
+
+  .navbar a:hover {
+    opacity: 0.7;
   }
 
   .navbar-links {
