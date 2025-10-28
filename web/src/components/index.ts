@@ -10,3 +10,4 @@ export { default as Logo } from "./Images";
 export { default as MediaBlock } from "./MediaBlock";
 export { default as NavBar } from "./NavBar"
 export { default as AutoScroller } from "./AutoScroller"
+export { default as ScrollGallery } from "./ScrollGallery"

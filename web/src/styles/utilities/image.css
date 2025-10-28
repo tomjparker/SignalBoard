@@ -32,6 +32,19 @@
     box-shadow: var(--frame-shadow, 0 4px 16px rgba(0, 0, 0, 0.1));
     padding: var(--frame-padding, var(--space-6, 2rem));
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    /* animation */
+    opacity: 0.4;
+    filter: grayscale(100%);
+    transform: translateY(60px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out filter 1s ease-out;
+  }
+
+  /* When visible */
+  .media-block.visible {
+    opacity: 1;
+    filter: grayscale(0%);
+    transform: translateY(0);
   }
 
   .media-block:hover {
@@ -76,5 +89,52 @@
     height: auto;
     border-radius: var(--frame-radius, var(--radius));
     object-fit: contain;
+  }
+}
+
+@layer utilities {
+  .media-scroller {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border-radius: var(--radius, 0.75rem);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    background: var(--surface-1);
+    padding-block: var(--space-3);
+  }
+
+  .scroller-inner {
+    display: flex;
+    gap: var(--space-5, 2rem);
+    width: max-content;
+  }
+
+  .scroll-img {
+    flex: 0 0 auto;
+    width: 240px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: var(--radius, 0.5rem);
+    box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.15));
+    filter: grayscale(60%);
+    transition: filter 0.4s ease;
+  }
+
+  .scroll-img:hover {
+    filter: grayscale(0%) brightness(1.1);
+  }
+
+  @keyframes scroll-loop {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes scroll-loop-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+  }
+
+  .pause-on-hover:hover .scroller-inner {
+    animation-play-state: paused;
   }
 }

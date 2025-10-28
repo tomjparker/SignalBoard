@@ -1,22 +1,20 @@
+// ScrollShowcase.tsx
 import React from "react";
+import ScrollGallery from "./ScrollGallery";
 
-export default function AutoScroller() {
-  const items = Array(6).fill("/sun.jpg"); // repeat the same image
+export default function ScrollShowcase() {
+  // 👇 grabs all JPG and PNG files from /src/assets/gallery/
+  const images = Object.values(
+    import.meta.glob("@/assets/gallery/*.{jpg,png,webp}", {
+      eager: true,
+      import: "default",
+    })
+  ) as string[];
 
   return (
-    <div className="scroller" data-animated="true">
-      <div className="scroller__inner">
-        {items.concat(items).map((src, i) => (
-          <img
-            key={i}
-            src={src}
-            alt="Scrolling Sun"
-            className="media-img"
-            width={120}
-            height={120}
-          />
-        ))}
-      </div>
-    </div>
+    <section className="container stack">
+      <h2 className="tracking-tight align-center">Auto-loaded Gallery</h2>
+      <ScrollGallery images={images} speed={30} reverse />
+    </section>
   );
 }

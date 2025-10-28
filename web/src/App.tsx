@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Header, Footer, BoardsFeed, MediaBlock, NavBar, AutoScroller } from "./components/index";
+import { Header, Footer, MediaBlock, NavBar, AutoScroller } from "./components/index";
 import Eclipse from "@/img/eclipse.svg?react";
-
 
 // const logos = import.meta.glob("@/img/*.svg", { eager: true, import: "default" });
 
@@ -40,11 +39,7 @@ export default function App() {
           </div>
         </div> */}
 
-      <section className="container stack align-center">
-        <h2>Animated Scroller</h2>
-        <AutoScroller />
-      </section>
-
+      
       {/* Hero Section */}
       <section className="container cover">
         <div
@@ -88,6 +83,10 @@ export default function App() {
           /> 
         </div>
       </section>
+      <section className="container stack align-center">
+        <AutoScroller />
+      </section>
+
       <Footer />
     </div>
   );
