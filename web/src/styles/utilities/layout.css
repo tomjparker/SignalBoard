@@ -1,7 +1,13 @@
+
 .container {
   max-width: var(--container-max-width);
   margin-inline: auto;
   padding-inline: var(--container-inline-padding);
+  background-color: var(--surface-1); /* solid surface color */
+  position: relative;
+  z-index: 1;
+  isolation: isolate; /* ensures it's visually separate from background blur */
+  border-radius: var(--radius); /* optional, looks nice if centered */
 }
 
 .center {
@@ -61,6 +67,13 @@
   flex-basis: calc((var(--switcher-threshold, 30rem) - 100%) * 999);
 }
 
+/* Example: stack earlier on small devices */
+@media (--xs) {
+  .switcher > * {
+    --switcher-threshold: 20rem;
+  }
+}
+
 /* Vertically center one element with sticky header/footer */
 .cover {
   min-block-size: 100dvb;
@@ -100,4 +113,41 @@
 @media (--lg) {
   .grid { --grid-min: 20rem; }
   .container { --container-inline-padding: 2rem; }
+}
+
+/* ============================
+   FROSTED BACKGROUND LAYER
+   ============================ */
+@layer utilities {
+  .background-base {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    
+    /* 👇 Absolutely required for scroll and click-through */
+    pointer-events: none;
+
+    /* 👇 Cross-browser backdrop blur */
+    background-color: rgba(10, 10, 10, 0.4);
+    -webkit-backdrop-filter: blur(12px); /* Safari */
+    backdrop-filter: blur(12px); /* Chrome, Firefox 103+, Edge */
+
+    /* 👇 Decorative overlay (optional) */
+    background-image: radial-gradient(rgba(14, 14, 13, 0.15) 4px, transparent 4px);
+    background-size: 40px 40px;
+
+    /* 👇 Create a slight “scroll parallax” illusion */
+    background-attachment: fixed;      /* the key */
+    background-position: center top;
+  }
+}
+
+/* ============================
+   PAGE LAYER (content above)
+   ============================ */
+#root, .page {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  isolation: isolate;       /* Prevent backdrop-filter from blending with cards */
 }

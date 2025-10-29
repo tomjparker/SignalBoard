@@ -2,24 +2,7 @@
 export const API = import.meta.env?.VITE_API_URL ?? "http://localhost:4000";
 
 /* Domain types (keep these) */
-export type Issue = {
-  id: string;
-  title: string;
-  description?: string | null;
-  status?: string;
-  priority?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  boardId?: string;
-};
 
-export type Board = {
-  id: string;
-  name: string;
-  slug: string;
-  createdAt?: string;
-  updatedAt?: string;
-};
 
 // --- Type guards ---
 function isRecord(v: unknown): v is Record<string, unknown> {

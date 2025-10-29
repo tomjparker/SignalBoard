@@ -1,0 +1,13 @@
+// NB: Adding this index allows a single line import in App.tsx making view easier
+
+export { default as Header } from "./Header";
+export { default as Footer } from "./Footer";
+export { default as BoardsFeed } from "./BoardsFeed";
+export { default as TaskBoard } from "./TaskBoard";
+export { default as EditableText } from "./EditableText";
+export { default as DropableZone } from "./DropableZone";
+export { default as Logo } from "./Images";
+export { default as MediaBlock } from "./MediaBlock";
+export { default as NavBar } from "./NavBar"
+export { default as AutoScroller } from "./AutoScroller"
+export { default as ScrollGallery } from "./ScrollGallery"

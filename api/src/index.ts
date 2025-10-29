@@ -1,4 +1,5 @@
 import express from "express";
+import helmet from "helmet"; // Nice to have for baseline header hygiene, even if not hosting from here. Also reinforces api endpoint
 import type { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -12,7 +13,26 @@ import { prisma } from "./db.js";
 
 const app = express();
 
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false, // allows serving resources to other origins
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // allows CORS clients to consume responses
+    contentSecurityPolicy: false, // disable CSP entirely for JSON API, its only for HTML safety, which we dont serve here.
+  })
+)
+
 app.use(cors({ origin: true, credentials: true }));
+
+
+// For production use:
+
+// app.use(cors({
+//   origin: ["http://localhost:5173", "https://app.yourdomain.com"],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+
 app.use(express.json());
 
 // --- Request latency tracking --- //

@@ -1,3 +1,9 @@
+/* ite’s default behavior (and moduleResolution: "bundler") means TypeScript will automatically:
+
+Include all .d.ts files under the include array
+
+And load any ambient types from your "include" paths (e.g., "src" and "types") */
+
 {
   "compilerOptions": {
     /* Language and Environment */
@@ -5,7 +11,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "jsx": "react-jsx",                  // Vite + React 17+ with the new JSX transform
+    "jsx": "react-jsx",   
+    "jsxImportSource": "react",           // Vite + React 17+ with the new JSX transform
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -28,7 +35,8 @@
 
   "include": [
     "src",
-    "global.d.ts"       // 👈 add your CSS vars augmentation here
+    "global.d.ts",
+    "types"
   ],
 
   "exclude": ["node_modules", "dist"]
