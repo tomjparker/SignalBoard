@@ -1,4 +1,4 @@
-import { Footer, Header, NavBar } from "@/components"
+import { Footer, Header } from "@/components"
 
 export default function ComponentsPage() {
     return (
