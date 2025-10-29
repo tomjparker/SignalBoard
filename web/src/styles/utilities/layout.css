@@ -109,3 +109,39 @@
   .grid { --grid-min: 20rem; }
   .container { --container-inline-padding: 2rem; }
 }
+
+/* ============================
+   FROSTED BACKGROUND LAYER
+   ============================ */
+@layer utilities {
+  .background-base {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    
+    /* 👇 Absolutely required for scroll and click-through */
+    pointer-events: none;
+
+    /* 👇 Cross-browser backdrop blur */
+    background-color: rgba(10, 10, 10, 0.4);
+    -webkit-backdrop-filter: blur(12px); /* Safari */
+    backdrop-filter: blur(12px); /* Chrome, Firefox 103+, Edge */
+
+    /* 👇 Decorative overlay (optional) */
+    background-image: radial-gradient(rgba(14, 14, 13, 0.15) 4px, transparent 4px);
+    background-size: 40px 40px;
+
+    /* 👇 Create a slight “scroll parallax” illusion */
+    background-attachment: fixed;      /* the key */
+    background-position: center top;
+  }
+}
+
+/* ============================
+   PAGE LAYER (content above)
+   ============================ */
+#root, .page {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
