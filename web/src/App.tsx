@@ -10,14 +10,13 @@ import Eclipse from "@/img/eclipse.svg?react";
 
 export default function App() {
   // const [count, setCount] = useState(0);
-  const [title] = useState("Signal Board");
+  const [title] = useState("Basic Placards");
 
   return (
     <>
       <div className="background-base"/>
       <div className="page">
         <div className="scroll-watcher"></div>
-        <NavBar />
         <Header />
         {/* Hero Section */}
         <section className="container stack align-center">
@@ -42,7 +41,7 @@ export default function App() {
 
             {/* Future blocks */}
             <MediaBlock
-              src="/moon.jpg"
+              src="/moon.png"
               alt="Moon Symbol"
               title="Adaptive Interfaces"
               text="Dynamic themes that respond to user preferences for dark mode and reduced motion."

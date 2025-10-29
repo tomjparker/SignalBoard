@@ -5,11 +5,14 @@ export default function BoardsPage() {
     <>
     <div className="background-base"/>
     <div className="page">
-      <NavBar />
       <main>
         <Header />
 
-        <section className="surface stack p-6" style={{ "--stack-gap": "var(--space-5)" } as React.CSSProperties}>
+        <section className="container stack align-center">
+          <div className="grid">
+            {/* <h1 className="tracking-tight align-center">{title}</h1> */}
+          </div>
+
           <h1 className="tracking-tight">Boards</h1>
           <BoardsFeed />
         </section>

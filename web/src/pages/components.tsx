@@ -5,7 +5,6 @@ export default function ComponentsPage() {
     <>
       <div className="background-base"/>
       <div className="page">
-        <NavBar/>
         <Header/>
         <div className="container mx-auto py-8 space-y-12">
           <h1 className="text-2xl font-semibold tracking-tight mb-6">
