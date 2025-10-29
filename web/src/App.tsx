@@ -19,32 +19,11 @@ export default function App() {
         <div className="scroll-watcher"></div>
         <NavBar />
         <Header />
-
-        {/* <div className="scroll-watcher"></div>
-          <header className="article-header">
-            <h1>Scroll-based animations made easy</h1>
-          </header>
-
-          <article>
-            <img src="/sun.jpg" alt="Demo image" />
-            <img src="/sun.jpg" alt="Demo image" />
-          </article>
-
-          <div className="scroller" data-animated="true">
-            <div className="scroller__inner">
-              <img src="/sun.jpg" alt="HTML" />
-              <img src="/sun.jpg" alt="CSS" />
-              <img src="/sun.jpg" alt="JavaScript" />
-              <img src="/sun.jpg" alt="HTML" />
-              <img src="/sun.jpg" alt="CSS" />
-              <img src="/sun.jpg" alt="JavaScript" />
-            </div>
-          </div> */}
-
-        
         {/* Hero Section */}
         <section className="container stack align-center">
-          <h1 className="tracking-tight align-center">{title}</h1>
+          <div className="grid">
+            <h1 className="tracking-tight align-center">{title}</h1>
+            </div>
 
           <div className="grid">
             <MediaBlock

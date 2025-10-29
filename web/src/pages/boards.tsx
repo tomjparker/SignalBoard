@@ -2,6 +2,8 @@ import { NavBar, Header, Footer, BoardsFeed } from "@/components";
 
 export default function BoardsPage() {
   return (
+    <>
+    <div className="background-base"/>
     <div className="page">
       <NavBar />
       <main>
@@ -15,5 +17,6 @@ export default function BoardsPage() {
         <Footer />
       </main>
     </div>
+    </>
   );
 }
