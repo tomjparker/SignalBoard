@@ -18,11 +18,14 @@ app.use(
     crossOriginEmbedderPolicy: false, // allows serving resources to other origins
     crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
     crossOriginResourcePolicy: { policy: "cross-origin" }, // allows CORS clients to consume responses
-    contentSecurityPolicy: false, // disable CSP entirely for JSON API
+    contentSecurityPolicy: false, // disable CSP entirely for JSON API, its only for HTML safety, which we dont serve here.
   })
 )
 
 app.use(cors({ origin: true, credentials: true }));
+
+
+// For production use:
 
 // app.use(cors({
 //   origin: ["http://localhost:5173", "https://app.yourdomain.com"],

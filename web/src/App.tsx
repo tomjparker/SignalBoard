@@ -41,32 +41,10 @@ export default function App() {
 
       
       {/* Hero Section */}
-      <section className="container cover">
-        <div
-          className="center stack align-center"
-          style={{
-            "--center-max": "70ch",
-            "--stack-gap": "var(--space-6)",
-          } as React.CSSProperties}
-        >
-
+      <section className="container stack align-center">
         <h1 className="tracking-tight align-center">{title}</h1>
 
-        <div className="flex row items-center justify-center gap-4">
-          <button onClick={() => setCount((c) => c + 1)}>
-            Count is {count}
-          </button>
-          <a href="#" className="text-sm">
-            Read the docs
-          </a>
-        </div>
-          {/* <div>
-            <Logo src={Eclipse} size={200} alt="Sun" className="rounded-full shadow-md" />
-          </div> */}
-          {/* <div>
-            <Logo src="/sun.jpg" size={400} alt="Sun" className="rounded-full shadow-md" />
-          </div> */}
-
+        <div className="grid">
           <MediaBlock
             src={Eclipse}
             alt="Eclipse Icon"
@@ -79,8 +57,15 @@ export default function App() {
             alt="Sun Symbol"
             title="Scalable Design"
             text="Images and SVGs scale seamlessly with text. Use this for about sections, feature highlights, or onboarding cards."
-            reverse
-          /> 
+          />
+
+          {/* Future blocks */}
+          <MediaBlock
+            src="/moon.jpg"
+            alt="Moon Symbol"
+            title="Adaptive Interfaces"
+            text="Dynamic themes that respond to user preferences for dark mode and reduced motion."
+          />
         </div>
       </section>
       <section className="container stack align-center">

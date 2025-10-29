@@ -7,6 +7,7 @@ module.exports = {
       features: {
         'nesting-rules': true,         // native-like CSS nesting
         'custom-media-queries': true,  // enables @custom-media
+        // 'custom-media': true,
       }
     }
   }

@@ -1,12 +1,44 @@
 /* ========= Base Tokens ========= */
+
+/* Mobile-first defaults */
 :root {
   --radius: 0.5rem;
+  --container-inline-padding: 1rem;
+  --container-max-width: 60rem;
+  --grid-min: 14rem;
 
   /* Default theme: light */
   color-scheme: light;
   --surface-1: #ffffff;
   --text-color: #111111;
 }
+
+/* Tablet (medium screens) */
+@media (--md) {
+  :root {
+    --container-inline-padding: 1.5rem;
+    --container-max-width: 70rem;
+    --grid-min: 18rem;
+  }
+}
+
+/* Desktop (large screens) */
+@media (--lg) {
+  :root {
+    --container-inline-padding: 2rem;
+    --container-max-width: 80rem;
+    --grid-min: 20rem;
+  }
+}
+
+/* Wide desktop */
+@media (--xl) {
+  :root {
+    --container-max-width: 90rem;
+    --grid-min: 22rem;
+  }
+}
+
 
 /* ========= Dark Mode Overrides ========= */
 [data-theme="dark"] {
